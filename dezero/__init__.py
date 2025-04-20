@@ -1,30 +1,41 @@
-# Add import path for the dezero directory.
 
-from dezero.core_simple import Variable
-from dezero.core_simple import Function
-from dezero.core_simple import using_config
-from dezero.core_simple import no_grad
-from dezero.core_simple import as_array
-from dezero.core_simple import as_variable
-from dezero.core_simple import setup_variable 
+is_simple_core = False
 
-setup_variable() #연산자 오버로드가 이루어진 상태에서 Variable을 사용할수 있도록 
+if is_simple_core:
+    from dezero.core_simple import Variable
+    from dezero.core_simple import Function
+    from dezero.core_simple import using_config
+    from dezero.core_simple import no_grad
+    from dezero.core_simple import as_array
+    from dezero.core_simple import as_variable
+    from dezero.core_simple import setup_variable
 
+else:
+    from dezero.core import Variable
+    from dezero.core import Parameter
+    from dezero.core import Function
+    from dezero.core import using_config
+    from dezero.core import no_grad
+    from dezero.core import test_mode
+    from dezero.core import as_array
+    from dezero.core import as_variable
+    from dezero.core import setup_variable
+    from dezero.core import Config
+    from dezero.layers import Layer
+    from dezero.models import Model
+    from dezero.datasets import Dataset
+    from dezero.dataloaders import DataLoader
+    from dezero.dataloaders import SeqDataLoader
 
+    import dezero.datasets
+    import dezero.dataloaders
+    import dezero.optimizers
+    import dezero.functions
+    import dezero.functions_conv
+    import dezero.layers
+    import dezero.utils
+    import dezero.cuda
+    import dezero.transforms
 
-if '__file__' in globals():
-    import os, sys
-    sys.path.append(os.path.join(os.path.dirname(__file__), '..')) # Python로 실행할 때, 상위 폴더를 path에 추가해서 모듈을 임포트할 수 있도록
-    
-
-import numpy as np
-from dezero import Variable
-
-
-x = Variable(np.array(1.0))
-y = (x + 3) ** 2
-y.backward()
-
-print(y)
-print(x.grad)
-
+setup_variable()
+__version__ = '0.0.13'
