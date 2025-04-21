@@ -84,6 +84,10 @@ class Variable:
     def cleargrad(self):
         self.grad = None
 
+# create_graph=True 옵션은 1차 미분 결과(gx)를 Variable 객체로 유지
+# 그 결과로 .grad 역시 계산 그래프를 가진 Variable이 됨
+# 따라서 gx.backward()도 가능 → 즉, 2차 도함수 계산 가능!
+# 테일러 급수 항 반복적으로 계산 가능 
     def backward(self, retain_grad=False, create_graph=False): # 역전파 비활성화, 실무에서 역전파 한번만 수행되는 경우가 대다수 
         if self.grad is None:
             xp = dezero.cuda.get_array_module(self.data)
